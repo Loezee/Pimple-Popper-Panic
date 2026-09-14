@@ -18,7 +18,7 @@ public class GameManager_script : MonoBehaviour
 
     void Start()
     {
-        //start with music at the same time
+        //start the music at the same time
         //for pimple spawning timing
         audioSource = GetComponent<AudioSource>();
         audioSource.Play();
