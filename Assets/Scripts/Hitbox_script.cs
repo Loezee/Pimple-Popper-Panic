@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class Hitbox_script : MonoBehaviour
 {
-    public GameObject sphere;
-
-    private void OnMouseDown()
+     private void OnMouseDown()
     {
-        Destroy(sphere);
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }
