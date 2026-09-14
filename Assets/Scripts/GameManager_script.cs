@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameManager_script : MonoBehaviour
 {
-   public GameObject spherePrefab;
+   public GameObject pimplePrefab;
 
     //timing for pimple
     public float[] spawnTimes;
@@ -46,7 +46,7 @@ public class GameManager_script : MonoBehaviour
     );
 
     Instantiate(
-        spherePrefab,
+        pimplePrefab,
         spawnPosition,
         Quaternion.identity
     );

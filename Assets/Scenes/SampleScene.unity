@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25506c82f2379fb46bf40fe9a1ab147e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spherePrefab: {fileID: 414413837}
+  pimplePrefab: {fileID: 414413837}
   spawnTimes:
   - 1
   - 2
@@ -613,7 +613,7 @@ MonoBehaviour:
   - 9
   - 10
   spawnArea: {fileID: 582208932}
-  spawnRadius: 3
+  spawnRadius: 2.95
 --- !u!4 &1135234136
 Transform:
   m_ObjectHideFlags: 0
@@ -777,6 +777,10 @@ PrefabInstance:
     - target: {fileID: 3629356204853805680, guid: f71bc40bde5bf2f4a83eef7e43b7241e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951037345772018528, guid: f71bc40bde5bf2f4a83eef7e43b7241e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
