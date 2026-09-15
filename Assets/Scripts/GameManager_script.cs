@@ -5,76 +5,45 @@ public class GameManager_script : MonoBehaviour
 {
     public GameObject pimplePrefab;
 
-    // --------------------------------------------------
-    // PIMPLE TIMING
-    // --------------------------------------------------
-
-    // When each pimple appears in the song
+    //for when each pimple appears
     public float[] spawnTimes;
 
-    // How long each pimple grows before its hitbox appears
+    //pimple growing before hitbox appears
     public float[] hitboxDelays;
 
-    // How long the player has to click after
-    // the hitbox appears
+    //grace period before pimple is gone
     public float gracePeriod = 0.4f;
 
-
-    // --------------------------------------------------
-    // PIMPLE SPAWN POINTS
-    // --------------------------------------------------
-
-    // Custom points placed around the 3D model
+    //pimple spawn points are empty game objects
     public Transform[] spawnPoints;
 
-    // Prevents the same spawn point being selected
-    // twice in a row
+    //no same spawn point twice in a row
     private int lastSpawnIndex = -1;
-
-
-    // --------------------------------------------------
-    // SCORE
-    // --------------------------------------------------
 
     public int score = 0;
 
-    // The TextMeshPro text that displays the score
+    //text display for score
     public TMP_Text scoreText;
-
-
-    // --------------------------------------------------
-    // OTHER VARIABLES
-    // --------------------------------------------------
 
     private int nextSpawn = 0;
 
     private AudioSource audioSource;
 
-
-    // --------------------------------------------------
-    // START
-    // --------------------------------------------------
-
     void Start()
     {
-        // Get the Audio Source attached to the Game Manager
+        //get audio source attached to game manager
         audioSource = GetComponent<AudioSource>();
 
-        // Display the starting score
+        //display score
         UpdateScoreUI();
 
-        // Start the music
+        //start the music
         audioSource.Play();
     }
 
-
-    // --------------------------------------------------
-    // UPDATE
-    // --------------------------------------------------
-
     void Update()
     {
-        // Check if it is time to spawn the next pimple
+        //is it time to spawn next pimple?
         if (nextSpawn < spawnTimes.Length &&
             audioSource.time >= spawnTimes[nextSpawn])
         {
@@ -84,14 +53,9 @@ public class GameManager_script : MonoBehaviour
         }
     }
 
-
-    // --------------------------------------------------
-    // SPAWN PIMPLE
-    // --------------------------------------------------
-
     void SpawnPimple()
     {
-        // Choose a random spawn point
+        //choose one random spawn point
         int randomIndex;
 
         do
@@ -103,15 +67,13 @@ public class GameManager_script : MonoBehaviour
             spawnPoints.Length > 1
         );
 
-        // Remember this spawn point
+        //remember the spawn point
         lastSpawnIndex = randomIndex;
 
-        // Get the chosen spawn point
         Transform spawnPoint = spawnPoints[randomIndex];
 
 
-        // Create the pimple at the spawn point's
-        // position and rotation
+        //clone the pimple prefab at that spawn point
         GameObject newPimple = Instantiate(
             pimplePrefab,
             spawnPoint.position,
@@ -119,12 +81,12 @@ public class GameManager_script : MonoBehaviour
         );
 
 
-        // Get the Pimple script
+        //refer to pimple script
         Pimple_script pimpleScript =
             newPimple.GetComponent<Pimple_script>();
 
 
-        // Give the pimple its timing information
+        //give the pimple its timing
         pimpleScript.Initialize(
             hitboxDelays[nextSpawn],
             gracePeriod,
@@ -132,25 +94,15 @@ public class GameManager_script : MonoBehaviour
         );
     }
 
-
-    // --------------------------------------------------
-    // ADD POINTS
-    // --------------------------------------------------
-
     public void AddPoints(int amount)
     {
         score += amount;
 
-        // Update the score shown on screen
+        //update the score
         UpdateScoreUI();
 
         Debug.Log("Score: " + score);
     }
-
-
-    // --------------------------------------------------
-    // UPDATE SCORE UI
-    // --------------------------------------------------
 
     void UpdateScoreUI()
     {
