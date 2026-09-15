@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class GameManager_script : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class GameManager_script : MonoBehaviour
     // Custom points placed around the 3D model
     public Transform[] spawnPoints;
 
-    // Keeps track of the last spawn point used
-    // so the same point isn't chosen twice in a row
+    // Prevents the same spawn point being selected
+    // twice in a row
     private int lastSpawnIndex = -1;
 
 
@@ -36,6 +37,9 @@ public class GameManager_script : MonoBehaviour
     // --------------------------------------------------
 
     public int score = 0;
+
+    // The TextMeshPro text that displays the score
+    public TMP_Text scoreText;
 
 
     // --------------------------------------------------
@@ -56,6 +60,9 @@ public class GameManager_script : MonoBehaviour
         // Get the Audio Source attached to the Game Manager
         audioSource = GetComponent<AudioSource>();
 
+        // Display the starting score
+        UpdateScoreUI();
+
         // Start the music
         audioSource.Play();
     }
@@ -67,7 +74,7 @@ public class GameManager_script : MonoBehaviour
 
     void Update()
     {
-        // Check if there is another pimple to spawn
+        // Check if it is time to spawn the next pimple
         if (nextSpawn < spawnTimes.Length &&
             audioSource.time >= spawnTimes[nextSpawn])
         {
@@ -112,7 +119,7 @@ public class GameManager_script : MonoBehaviour
         );
 
 
-        // Get the Pimple_script attached to the new pimple
+        // Get the Pimple script
         Pimple_script pimpleScript =
             newPimple.GetComponent<Pimple_script>();
 
@@ -134,6 +141,22 @@ public class GameManager_script : MonoBehaviour
     {
         score += amount;
 
+        // Update the score shown on screen
+        UpdateScoreUI();
+
         Debug.Log("Score: " + score);
+    }
+
+
+    // --------------------------------------------------
+    // UPDATE SCORE UI
+    // --------------------------------------------------
+
+    void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
     }
 }
