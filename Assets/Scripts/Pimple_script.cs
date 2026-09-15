@@ -9,12 +9,19 @@ public class Pimple_script : MonoBehaviour
     public Vector3 startingScale = new Vector3(0.1f, 0.1f, 0.1f);
     public Vector3 finalScale = new Vector3(1f, 1f, 1f);
 
+    // Pimple colors
+    public Color growingColor = new Color(1f, 0.4f, 0.6f); // Pink
+    public Color clickableColor = Color.white;
+
     private GameManager_script gameManager;
 
     private float hitboxDelay;
     private float gracePeriod;
 
     private bool clicked = false;
+
+    // Renderer for the pimple
+    private Renderer pimpleRenderer;
 
     public void Initialize(
         float delay,
@@ -26,13 +33,19 @@ public class Pimple_script : MonoBehaviour
         gracePeriod = grace;
         gameManager = manager;
 
-        // Start the pimple very small
+        // Get the renderer from the pimple
+        pimpleRenderer = GetComponentInChildren<Renderer>();
+
+        // Start small
         transform.localScale = startingScale;
 
-        // Make sure the hitbox is initially invisible/inactive
+        // Start pink
+        pimpleRenderer.material.color = growingColor;
+
+        // Hide hitbox
         hitbox.SetActive(false);
 
-        // Start the growth and timing
+        // Start growth/timing
         StartCoroutine(PimpleRoutine());
     }
 
@@ -45,10 +58,8 @@ public class Pimple_script : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            // Calculate how far through the growth we are
             float progress = timer / hitboxDelay;
 
-            // Gradually change the scale
             transform.localScale = Vector3.Lerp(
                 startingScale,
                 finalScale,
@@ -58,16 +69,19 @@ public class Pimple_script : MonoBehaviour
             yield return null;
         }
 
-        // Make absolutely sure the pimple reaches full size
+        // Make sure it reaches full size
         transform.localScale = finalScale;
 
-        // Growth is finished, so activate the hitbox
+        // Change from pink to white
+        pimpleRenderer.material.color = clickableColor;
+
+        // Turn on the hitbox
         hitbox.SetActive(true);
 
-        // Give the player their grace period
+        // Wait for the grace period
         yield return new WaitForSeconds(gracePeriod);
 
-        // If they didn't click it...
+        // If the player didn't click it, destroy it
         if (!clicked)
         {
             Destroy(gameObject);
@@ -76,16 +90,16 @@ public class Pimple_script : MonoBehaviour
 
     public void HitPimple()
     {
-        // Prevent multiple clicks from giving multiple points
+        // Prevent multiple clicks
         if (clicked)
             return;
 
         clicked = true;
 
-        // Give the player 5 points
+        // Give 5 points
         gameManager.AddPoints(5);
 
-        // Destroy the pimple and hitbox
+        // Destroy pimple and hitbox
         Destroy(gameObject);
     }
 }
